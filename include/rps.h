@@ -6,7 +6,7 @@
 class rps
 {
 private:
-    String solution[3][2] = {
+    String solutions[3][2] = {
         {"rock", "scissors"},
         {"paper", "rock"},
         {"scissors", "paper"}};
