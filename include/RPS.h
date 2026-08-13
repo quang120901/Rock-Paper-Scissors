@@ -1,9 +1,9 @@
-#ifndef rps_h
-#define rps_h
+#ifndef RPS_H
+#define RPS_H
 
 #include <Arduino.h>
 
-class rps
+class RPS
 {
 private:
     String solutions[3][2] = {
@@ -24,17 +24,15 @@ public:
     {
         playing,
         waitForUserInput,
-        endE
+        end
     };
 
     String chosenInput[3] = {"rock", "paper", "scissors"};
 
-    scores GameScore[3]
-    {
+    scores GameScore[3]{
         {"won", 0},
-            {"lost", 0},
-            {"tied", 0}
-    };
+        {"lost", 0},
+        {"tied", 0}};
 
     void allLEDsOff();
     void turnAllLEDsOn();

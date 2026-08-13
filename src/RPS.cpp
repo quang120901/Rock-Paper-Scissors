@@ -1,7 +1,7 @@
 #include <Arduino.h>
-#include "rps.h"
+#include "RPS.h"
 
-void rps::checkUserWin(String user, String bot)
+void RPS::checkUserWin(String user, String bot)
 {
     if (user == bot)
     {
