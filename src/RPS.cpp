@@ -6,7 +6,7 @@ void RPS::checkUserWin(String user, String bot)
     if (user == bot)
     {
         // tied
-        Serial.println("TIED");
+        GameScore[2].score += 1;
     }
     else
     {
@@ -14,15 +14,13 @@ void RPS::checkUserWin(String user, String bot)
         {
             if (solutions[i][0] == user)
             {
-                if(solutions[i][1]==bot){
-                    //we have won
-                    Serial.println("WON");
-
+                if (solutions[i][1] == bot)
+                {
+                    GameScore[0].score += 1;
                 }
-                else {
-                    //we have lost
-                    Serial.println("LOST");
-
+                else
+                {
+                    GameScore[1].score += 1;
                 }
             }
         }
