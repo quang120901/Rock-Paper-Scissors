@@ -1,99 +1,240 @@
-html, table {
-  font-family: Helvetica;
-  display: inline-block;
-  
-  text-align: center;
-  font-size:1.1rem;
-}
-body{
-	 margin: 0;
-}
-h1, h2,h3{
-  color: #0F3376;
-  font-size: 2rem;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-p, select{
-  font-size: 1.5rem;
+:root {
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #3b82f6;
+  --secondary: #0f172a;
+  --accent: #f59e0b;
+  --success: #10b981;
+  --danger: #ef4444;
+  --background: #f8fafc;
+  --surface: #ffffff;
+  --text-primary: #1e293b;
+  --text-secondary: #64748b;
+  --border: #e2e8f0;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --radius: 12px;
+  --radius-sm: 8px;
+  --transition: all 0.2s ease;
 }
 
-.headline{
-  overflow:hidden;
-  background-color: #065786;
-  color: white; 
-  font-size: 2.5rem; 
-  padding: 20px;
-  margin:0;
+html {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--background);
+  min-height: 100vh;
+  line-height: 1.6;
 }
 
-.statistik{
-  background-color: #7f8fa6;
-  color: white; 
-  font-size: 1.5rem; 
-  padding: 15px;
-  margin:0;
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem 1rem;
 }
 
-.smallNumbers{
-	font-size: 1rem;
-	color: gray;
-}
-
-.content{
-	padding:20px;
-}
-
-.boxes { 
-    max-width: 300px; 
-    margin: 0 auto; 
-    display: grid; 
-    grid-gap: 2rem; 
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-}
-
-.box { 
-    background-color: white; 
-    box-shadow: 2px 2px 12px 1px rgba(140,140,140,.5); 
-  }
-
-.noShadow{
-	box-shadow: none;
-}  
-
-.spielstatus{
-	font-size:1.5rem;
-}
-
-td{
-	padding:30px;
-}	
-
-
-.button {
-  display: inline-block;
-  background-color: #008CBA;
-  border: none;
-  border-radius: 4px;
+.headline {
+  width: 100%;
+  max-width: 500px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
   color: white;
-  padding: 10px 25px;
-  text-decoration: none;
-  font-size: 1.5rem;
-  margin: 2px;
+  padding: 2rem;
+  border-radius: var(--radius);
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 2rem;
+}
+
+.content {
+  width: 100%;
+  max-width: 500px;
+}
+
+.game-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.choice-selector {
+  margin-bottom: 1.5rem;
+}
+
+.choice-selector label {
+  display: block;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  font-size: 1.1rem;
+}
+
+.choice-selector select {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  font-size: 1.1rem;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text-primary);
   cursor: pointer;
+  transition: var(--transition);
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%2364748b' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+  background-position: right 0.75rem center;
+  background-repeat: no-repeat;
+  background-size: 1.5rem;
+  padding-right: 3rem;
 }
 
-
-input{
-	height:60px;
-	margin-bottom:15px;
-	width:90%;
-	font-size:30px;
-}
-input[type = submit] {
-	height:50px;
-	text-align:center;
+.choice-selector select:hover {
+  border-color: var(--primary-light);
 }
 
-label{
-	font-size:1.2rem;
+.choice-selector select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 0.15);
+}
+
+.play-button {
+  width: 100%;
+  padding: 1rem 2rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow);
+}
+
+.play-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+}
+
+.play-button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow);
+}
+
+.play-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgb(37 99 235 / 0.3), var(--shadow);
+}
+
+.stats-section {
+  margin-top: 2rem;
+}
+
+.stats-header {
+  background: linear-gradient(135deg, var(--secondary) 0%, #1e293b 100%);
+  color: white;
+  padding: 1.25rem 1.5rem;
+  border-radius: var(--radius) var(--radius) 0 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--surface);
+  border-radius: 0 0 var(--radius) var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  border-top: none;
+}
+
+.stats-table th,
+.stats-table td {
+  padding: 1rem 1.25rem;
+  text-align: center;
+}
+
+.stats-table th {
+  background: var(--background);
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border);
+}
+
+.stats-table td {
+  color: var(--text-primary);
+  font-size: 1.1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.stats-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.stats-table tbody tr:hover td {
+  background: var(--background);
+}
+
+.stats-table .round-number {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.stats-table .won {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.stats-table .lost {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.stats-table .tied {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 1rem;
+  }
+  
+  .headline {
+    font-size: 1.5rem;
+    padding: 1.5rem;
+  }
+  
+  .game-card {
+    padding: 1.5rem;
+  }
+  
+  .choice-selector select {
+    padding: 0.875rem 1rem;
+    font-size: 1rem;
+  }
+  
+  .play-button {
+    padding: 0.875rem 1.5rem;
+    font-size: 1.1rem;
+  }
 }

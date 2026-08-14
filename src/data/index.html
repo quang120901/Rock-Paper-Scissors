@@ -11,36 +11,31 @@
 
 <body>
 
-	<h2 class="headline">Rock Paper Scissors GAME</h2>
+	<h1 class="headline">Rock Paper Scissors GAME</h1>
 	<div class="content">
 
-		<div class="boxes">
-			<div class="box noShadow">
+		<div class="game-card">
+			<div class="choice-selector">
+				<label for="sspbAuswahl">Choose your move</label>
 				<select id="sspbAuswahl">
-					<option id="scissors">Scissors</option>
-					<option id="rock">Rock</option>
-					<option id="paper">Paper</option>
+					<option id="scissors" value="scissors">Scissors</option>
+					<option id="rock" value="rock">Rock</option>
+					<option id="paper" value="paper">Paper</option>
 				</select>
-				<br /><br />
 			</div>
 
-		</div>
-
-		<div class="box noShadow">
-			<button name="submitentry" class="button button_senden" onClick="submitGET()">Play !</button>
+			<button name="submitentry" class="play-button" onClick="submitGET()">Play!</button>
 		</div>
 
 	</div>
 
-	<hr />
-	<br />
-	<div id="statistic">
-		<h3 class="statistik">Results</h3>
+	<div class="stats-section">
+		<h2 class="stats-header">Results</h2>
 
-		<table class="ergebnisse">
+		<table class="stats-table">
 			<thead>
 				<tr>
-					<th>Rounds</th>
+					<th>Round</th>
 					<th>Won</th>
 					<th>Lost</th>
 					<th>Tied</th>
@@ -48,12 +43,11 @@
 			</thead>
 			<tbody id="scores">
 				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
+					<td class="round-number"></td>
+					<td class="won"></td>
+					<td class="lost"></td>
+					<td class="tied"></td>
 				</tr>
-
 			</tbody>
 		</table>
 	</div>
@@ -64,7 +58,7 @@
 
 <script>
 
-	var trCounter=0;
+	var trCounter = 0;
 
 	function submitGET() {
 		//we will pass data to our ESP32
@@ -97,43 +91,39 @@
 		source.addEventListener('won', function (e) {
 			console.log("won", e.data);
 
-			var row="<tr id='"+trCounter+"'><td class='smallNumbers'>"+trCounter+"</td>";
-			$(".ergebnisse").append(row);
+			var row = "<tr id='" + trCounter + "'><td class='round-number smallNumbers'>" + trCounter + "</td>";
+			$("#scores").append(row);
 
-			row="<td class='smallNumbers'>"+e.data+"</td>";
-			$("#"+trCounter).append(row);
-			
+			row = "<td class='won smallNumbers'>" + e.data + "</td>";
+			$("#" + trCounter).append(row);
+
 		}, false);
 
 		source.addEventListener('lost', function (e) {
-			
-			var row="<td class='smallNumbers'>"+e.data+"</td>";
-			$("#"+trCounter).append(row);
-			
+
+			var row = "<td class='lost smallNumbers'>" + e.data + "</td>";
+			$("#" + trCounter).append(row);
+
 		}, false);
 
 		source.addEventListener('tied', function (e) {
-			row="<td class='smallNumbers'>"+e.data+"</td>";
-			$("#"+trCounter).append(row);
+			row = "<td class='tied smallNumbers'>" + e.data + "</td>";
+			$("#" + trCounter).append(row);
 
 			//close the line
-			$("#"+trCounter).append("</tr>");
+			$("#" + trCounter).append("</tr>");
 
-			
+
 			trCounter++;
-			
+
+
 		}, false);
 
 
 
 
-		
-		
 
 	}
-
-
-
 
 
 </script>
