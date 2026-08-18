@@ -1,5 +1,12 @@
 #include <Arduino.h>
+#include <WiFi.h>
+#include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
+#include <SPIFFS.h>
+#include <ESP32Servo.h>
+
 #include "RPS.h"
+#include "Credentials.h"
 
 RPS Game = RPS();
 
