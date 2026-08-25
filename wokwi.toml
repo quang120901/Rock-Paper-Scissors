@@ -1,4 +1,7 @@
 [wokwi]
 version = 1
-firmware = ".pio/build/az-delivery-devkit-v4/firmware.bin"
+firmware = "merged-flash.bin"
 elf = ".pio/build/az-delivery-devkit-v4/firmware.elf"
+[[net.forward]]
+from = "localhost:8180"
+to = "target:80"
