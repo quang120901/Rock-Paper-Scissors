@@ -61,7 +61,7 @@ void loop()
 
       Serial.print("User: ");
       Serial.print(userInput);
-      Serial.print(" Bot: ");
+      Serial.print(" | Bot: ");
       Serial.println(bot);
 
       Game.checkUserWin(userInput, bot);

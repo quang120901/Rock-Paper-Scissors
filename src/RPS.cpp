@@ -18,14 +18,14 @@ void RPS::checkGameplay() {
         state = waitForUserInput;
     }
 
-    Serial.print("result");
-    Serial.print("Won:");
-    Serial.print(GameScore[0].score);
-    Serial.print("Lost:");
-    Serial.print(GameScore[1].score);
-    Serial.print("Tied:");
-    Serial.print(GameScore[2].score);
-    Serial.println("---------------");
+    Serial.println("RESULT");
+    Serial.print("Won: ");
+    Serial.println(GameScore[0].score);
+    Serial.print("Lost: ");
+    Serial.println(GameScore[1].score);
+    Serial.print("Tied: ");
+    Serial.println(GameScore[2].score);
+    Serial.println("--------------------------");
 }
 
 void RPS::checkUserWin(String user, String bot)
