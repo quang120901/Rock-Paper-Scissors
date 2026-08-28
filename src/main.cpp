@@ -59,6 +59,11 @@ void loop()
       randomNumber = random(0,3);    
       bot = Game.chosenInput[randomNumber];
 
+      Serial.print("User: ");
+      Serial.print(userInput);
+      Serial.print(" Bot: ");
+      Serial.println(bot);
+
       Game.checkUserWin(userInput, bot);
       Game.checkGameplay();
     break;
