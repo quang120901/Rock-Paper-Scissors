@@ -25,7 +25,7 @@ public:
         playing,
         waitForUserInput,
         end
-    };
+    } state;
 
     String chosenInput[3] = {"rock", "paper", "scissors"};
 

@@ -12,6 +12,7 @@
 RPS Game = RPS();
 
 String userInput = "";
+int randomNumber = 0;
 //prototype
 void checkParams(AsyncWebServerRequest *request);
 
@@ -43,14 +44,33 @@ void setup()
 
   server.begin();
 
-
-
-
+  Game.state = Game.waitForUserInput;
 
 }
 
 void loop()
 {
+
+  String bot = "";
+
+  switch(Game.state) {
+    case Game.playing:
+
+      randomNumber = random(0,3);    
+      bot = Game.chosenInput[randomNumber];
+
+      Game.checkUserWin(userInput, bot);
+      Game.checkGameplay();
+    break;
+
+    case Game.waitForUserInput:
+    break;
+
+    case Game.end:
+    break;
+
+  }
+
   // String userInput = Game.chosenInput[random(0, 4)];
   // Serial.println(userInput);
   // Game.checkUserWin(userInput, "rock");
@@ -65,7 +85,8 @@ void checkParams(AsyncWebServerRequest *request) {
 
   if(request->hasParam("sspb")) {
     userInput=request->getParam("sspb")->value();
-    Serial.println(userInput);
+
+    Game.state = Game.playing;
   }
 
 }
