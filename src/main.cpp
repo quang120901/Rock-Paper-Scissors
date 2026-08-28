@@ -11,6 +11,10 @@
 
 RPS Game = RPS();
 
+String userInput = "";
+//prototype
+void checkParams(AsyncWebServerRequest *request);
+
 void setup()
 {
   Serial.begin(115200);
@@ -27,7 +31,7 @@ void setup()
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
             {
               request->send(SPIFFS, "/index.html", String(), false, processor);
-              // checkParams(request);
+              checkParams(request);
             });
 
   // CSS
@@ -55,4 +59,13 @@ void loop()
   //               Game.GameScore[1].score,
   //               Game.GameScore[2].score);
   // delay(2000);
+}
+
+void checkParams(AsyncWebServerRequest *request) {
+
+  if(request->hasParam("sspb")) {
+    userInput=request->getParam("sspb")->value();
+    Serial.println(userInput);
+  }
+
 }
