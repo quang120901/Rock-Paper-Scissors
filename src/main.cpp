@@ -67,6 +67,7 @@ void loop()
     break;
 
     case Game.end:
+      Game.resetGame();
     break;
 
   }

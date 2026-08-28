@@ -1,6 +1,16 @@
 #include <Arduino.h>
 #include "RPS.h"
 
+void RPS::resetGame() {
+    for (int i = 0; i < 3; i++)
+    {
+        GameScore[i].score=0;
+    }
+
+    state=waitForUserInput;
+    
+}
+
 void RPS::checkGameplay() {
     if(GameScore[0].score >= 2 || GameScore[1].score >= 2) {
         state = end;
@@ -16,9 +26,6 @@ void RPS::checkGameplay() {
     Serial.print("Tied:");
     Serial.print(GameScore[2].score);
     Serial.println("---------------");
-
-
-
 }
 
 void RPS::checkUserWin(String user, String bot)
