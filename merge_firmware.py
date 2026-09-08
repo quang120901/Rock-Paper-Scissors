@@ -50,6 +50,4 @@ def merge_bin(source, target, env):
     print(">>> DONE! merged-flash.bin is ready at: " + output)
 
 
-# Runs automatically right after PlatformIO finishes building firmware.bin
-# (i.e. right after you click the Build button in PlatformIO)
-env.AddPostAction("$BUILD_DIR/firmware.bin", merge_bin)
+env.AddPostAction("buildprog", merge_bin)
