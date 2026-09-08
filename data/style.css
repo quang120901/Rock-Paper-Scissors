@@ -138,6 +138,56 @@ body {
   box-shadow: 0 0 0 3px rgb(37 99 235 / 0.3), var(--shadow);
 }
 
+.play-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.result-banner {
+  width: 100%;
+  max-width: 500px;
+  margin-top: 1rem;
+  padding: 0;
+  max-height: 0;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+  text-align: center;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: white;
+  background: linear-gradient(135deg, var(--secondary) 0%, #1e293b 100%);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.result-banner.visible {
+  padding: 1rem 1.5rem;
+  max-height: 100px;
+  opacity: 1;
+}
+
+.play-again-button {
+  width: 100%;
+  max-width: 500px;
+  margin-top: 1rem;
+  padding: 0.85rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, var(--accent) 0%, #d97706 100%);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow);
+}
+
+.play-again-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
 .stats-section {
   margin-top: 2rem;
 }
@@ -191,6 +241,29 @@ body {
 
 .stats-table tbody tr:hover td {
   background: var(--background);
+}
+
+.stats-table tbody tr {
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.stats-table tbody tr.row-new {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.stats-table tbody tr.row-won td {
+  background: rgb(16 185 129 / 0.08);
+}
+
+.stats-table tbody tr.row-lost td {
+  background: rgb(239 68 68 / 0.08);
+}
+
+.stats-table tbody tr.row-tied td {
+  background: rgb(245 158 11 / 0.08);
 }
 
 .stats-table .round-number {

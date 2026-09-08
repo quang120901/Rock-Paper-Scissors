@@ -11,10 +11,7 @@
 
 RPS Game = RPS();
 
-String userInput = "";
-int randomNumber = 0;
-//prototype
-void checkParams(AsyncWebServerRequest *request);
+int roundCounter = 0;
 
 void setup()
 {
@@ -30,10 +27,7 @@ void setup()
 
   // Route for root / web page
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-            {
-              request->send(SPIFFS, "/index.html", String(), false, processor);
-              checkParams(request);
-            });
+            { request->send(SPIFFS, "/index.html", String(), false, processor); });
 
   // CSS
   server.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -42,57 +36,57 @@ void setup()
   server.on("/jquery.min.js", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/jquery.min.js", "text/javascript"); });
 
+  // Play one round. Expects ?sspb=rock|paper|scissors
+  // Responds with JSON describing what happened in this round.
+  server.on("/play", HTTP_GET, [](AsyncWebServerRequest *request)
+            {
+              if (!request->hasParam("sspb"))
+              {
+                request->send(400, "application/json", "{\"error\":\"missing sspb param\"}");
+                return;
+              }
+
+              String userInput = request->getParam("sspb")->value();
+              userInput.toLowerCase();
+
+              int botIndex = random(0, 3);
+              String botChoice = Game.chosenInput[botIndex];
+
+              String result = Game.checkUserWin(userInput, botChoice);
+              Game.checkGameplay();
+              roundCounter++;
+
+              bool gameOver = (Game.state == Game.end);
+
+              String json = "{";
+              json += "\"round\":" + String(roundCounter) + ",";
+              json += "\"user\":\"" + userInput + "\",";
+              json += "\"bot\":\"" + botChoice + "\",";
+              json += "\"result\":\"" + result + "\",";
+              json += "\"won\":" + String(Game.GameScore[0].score) + ",";
+              json += "\"lost\":" + String(Game.GameScore[1].score) + ",";
+              json += "\"tied\":" + String(Game.GameScore[2].score) + ",";
+              json += "\"gameOver\":" + String(gameOver ? "true" : "false");
+              json += "}";
+
+              request->send(200, "application/json", json);
+            });
+
+  // Reset the match back to zero
+  server.on("/reset", HTTP_GET, [](AsyncWebServerRequest *request)
+            {
+              Game.resetGame();
+              roundCounter = 0;
+              request->send(200, "application/json", "{\"status\":\"ok\"}");
+            });
+
   server.begin();
 
   Game.state = Game.waitForUserInput;
-
 }
 
 void loop()
 {
-
-  String bot = "";
-
-  switch(Game.state) {
-    case Game.playing:
-
-      randomNumber = random(0,3);    
-      bot = Game.chosenInput[randomNumber];
-
-      Serial.print("User: ");
-      Serial.print(userInput);
-      Serial.print(" | Bot: ");
-      Serial.println(bot);
-
-      Game.checkUserWin(userInput, bot);
-      Game.checkGameplay();
-    break;
-
-    case Game.waitForUserInput:
-    break;
-
-    case Game.end:
-      Game.resetGame();
-    break;
-
-  }
-
-  // String userInput = Game.chosenInput[random(0, 4)];
-  // Serial.println(userInput);
-  // Game.checkUserWin(userInput, "rock");
-  // Serial.printf("Won: %d | Lost: %d | Tied: %d \n",
-  //               Game.GameScore[0].score,
-  //               Game.GameScore[1].score,
-  //               Game.GameScore[2].score);
-  // delay(2000);
-}
-
-void checkParams(AsyncWebServerRequest *request) {
-
-  if(request->hasParam("sspb")) {
-    userInput=request->getParam("sspb")->value();
-
-    Game.state = Game.playing;
-  }
-
+  // All gameplay logic now runs synchronously inside the "/play" route,
+  // so there is nothing left to poll for here.
 }

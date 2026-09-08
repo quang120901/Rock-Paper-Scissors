@@ -24,8 +24,14 @@
 				</select>
 			</div>
 
-			<button name="submitentry" class="play-button" onClick="submitGET()">Play!</button>
+			<button name="submitentry" id="play-btn" class="play-button" onClick="submitGET()">Play!</button>
 		</div>
+
+		<div id="result-banner" class="result-banner"></div>
+
+		<button id="play-again-btn" class="play-again-button" onClick="resetGame()" style="display:none;">
+			Play Again
+		</button>
 
 	</div>
 
@@ -42,12 +48,6 @@
 				</tr>
 			</thead>
 			<tbody id="scores">
-				<tr>
-					<td class="round-number"></td>
-					<td class="won"></td>
-					<td class="lost"></td>
-					<td class="tied"></td>
-				</tr>
 			</tbody>
 		</table>
 	</div>
@@ -58,72 +58,60 @@
 
 <script>
 
-	var trCounter = 0;
-
 	function submitGET() {
-		//we will pass data to our ESP32
 		var userInput = $("#sspbAuswahl").val().toLowerCase();
-		console.log(userInput);
 
-		$.get("?sspb=" + userInput, function (data) {
-			//here is nothing to do for us
+		$.getJSON("/play?sspb=" + userInput, function (data) {
+			addRow(data);
+
+			if (data.gameOver) {
+				showGameOver(data);
+			}
+		}).fail(function () {
+			console.log("Request to /play failed");
 		});
 	}
 
+	function addRow(data) {
+		var row = $("<tr>")
+			.addClass("row-" + data.result)
+			.addClass("row-new");
 
-	if (!!window.EventSource) {
+		row.append($("<td>").addClass("round-number").text(data.round));
+		row.append($("<td>").addClass("won").text(data.won));
+		row.append($("<td>").addClass("lost").text(data.lost));
+		row.append($("<td>").addClass("tied").text(data.tied));
 
-		var source = new EventSource('/events');
+		$("#scores").prepend(row);
 
-		source.addEventListener('open', function (e) {
-			console.log("Events Connected");
-		}, false);
-		source.addEventListener('error', function (e) {
-			if (e.target.readyState != EventSource.OPEN) {
-				console.log("Events Disconnected");
-			}
-		}, false);
-
-		source.addEventListener('message', function (e) {
-			console.log("message", e.data);
-		}, false);
-
-		source.addEventListener('won', function (e) {
-			console.log("won", e.data);
-
-			var row = "<tr id='" + trCounter + "'><td class='round-number smallNumbers'>" + trCounter + "</td>";
-			$("#scores").append(row);
-
-			row = "<td class='won smallNumbers'>" + e.data + "</td>";
-			$("#" + trCounter).append(row);
-
-		}, false);
-
-		source.addEventListener('lost', function (e) {
-
-			var row = "<td class='lost smallNumbers'>" + e.data + "</td>";
-			$("#" + trCounter).append(row);
-
-		}, false);
-
-		source.addEventListener('tied', function (e) {
-			row = "<td class='tied smallNumbers'>" + e.data + "</td>";
-			$("#" + trCounter).append(row);
-
-			//close the line
-			$("#" + trCounter).append("</tr>");
-
-
-			trCounter++;
-
-
-		}, false);
-
-
-
-
-
+		// trigger fade-in animation
+		setTimeout(function () {
+			row.removeClass("row-new");
+		}, 20);
 	}
 
+	function showGameOver(data) {
+		var message;
+		if (data.won > data.lost) {
+			message = "You won the match!";
+		} else if (data.lost > data.won) {
+			message = "The bot won the match!";
+		} else {
+			message = "The match ended in a tie!";
+		}
+
+		$("#result-banner").text(message).addClass("visible");
+		$("#play-btn").prop("disabled", true);
+		$("#play-again-btn").show();
+	}
+
+	function resetGame() {
+		$.get("/reset", function () {
+			$("#scores").empty();
+			$("#result-banner").text("").removeClass("visible");
+			$("#play-btn").prop("disabled", false);
+			$("#play-again-btn").hide();
+		});
+	}
 
 </script>
