@@ -1,5 +1,46 @@
 #include <Arduino.h>
 #include "RPS.h"
+#include "LED.h"
+
+LED ledRed1 = LED(4);
+LED ledRed2 = LED(17);
+LED ledBlue = LED(5);
+LED ledYellow1 = LED(18);
+LED ledYellow2 = LED(19);
+
+
+void RPS::allLEDsOff() {
+    ledRed1.off();
+    ledRed2.off();
+    ledBlue.off();
+    ledYellow1.off();
+    ledYellow2.off();
+}
+
+void RPS::displayLEDs() {
+
+    if(GameScore[0].score == 1) {
+        ledRed1.on();
+    } 
+    else if(GameScore[0].score == 2) {
+        ledRed1.on();
+        ledRed2.on();
+    }
+
+    if(GameScore[1].score == 1) {
+        ledYellow1.on();
+    } 
+    else if(GameScore[1].score == 2) {
+        ledYellow1.on();
+        ledYellow2.on();
+
+    }
+
+    if(GameScore[2].score == 1) {
+        ledBlue.on();
+    }
+
+}
 
 void RPS::resetGame() {
     for (int i = 0; i < 3; i++)
@@ -8,6 +49,7 @@ void RPS::resetGame() {
     }
 
     state=waitForUserInput;
+    allLEDsOff();
     
 }
 
@@ -26,6 +68,8 @@ void RPS::checkGameplay() {
     Serial.print("Tied: ");
     Serial.println(GameScore[2].score);
     Serial.println("--------------------------");
+
+    displayLEDs();
 }
 
 String RPS::checkUserWin(String user, String bot)

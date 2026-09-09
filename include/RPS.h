@@ -35,7 +35,7 @@ public:
         {"tied", 0}};
 
     void allLEDsOff();
-    void turnAllLEDsOn();
+    void displayLEDs();
     void checkGameplay();
     // Now returns the outcome of this single round: "won", "lost" or "tied"
     String checkUserWin(String user, String bot);
