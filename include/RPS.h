@@ -2,6 +2,7 @@
 #define RPS_H
 
 #include <Arduino.h>
+#include <ESP32Servo.h>
 
 class RPS
 {
@@ -18,6 +19,15 @@ private:
     };
 
     int previousScore;
+
+    // Servos, ordered left-to-right to match the <select> order in
+    // index.html: Scissors, Rock, Paper.
+    Servo servoScissors;
+    Servo servoRock;
+    Servo servoPaper;
+
+    static const int NEUTRAL_ANGLE = 0;
+    static const int SHOW_ANGLE = 90;
 
 public:
     enum states
@@ -40,6 +50,14 @@ public:
     // Now returns the outcome of this single round: "won", "lost" or "tied"
     String checkUserWin(String user, String bot);
     void resetGame();
+
+    // Attach the 3 servos to their pins, left to right: scissors, rock, paper
+    void attachServos(uint8_t scissorsPin, uint8_t rockPin, uint8_t paperPin);
+    // Rotate the servo matching "move" ("scissors"/"rock"/"paper") to show it,
+    // and reset the other two back to neutral.
+    void showMove(const String &move);
+    // Reset all 3 servos back to their neutral (resting) position.
+    void resetServos();
 };
 
 #endif

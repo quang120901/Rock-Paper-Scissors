@@ -25,6 +25,10 @@ void setup()
 
   connectAP();
 
+  // Left-to-right servo order matches the dropdown in index.html:
+  // Scissors, Rock, Paper -> pins 14, 27, 25 (per diagram.json wiring)
+  Game.attachServos(14, 27, 25);
+
   // Route for root / web page
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
             { request->send(SPIFFS, "/index.html", String(), false, processor); });
@@ -51,6 +55,8 @@ void setup()
 
               int botIndex = random(0, 3);
               String botChoice = Game.chosenInput[botIndex];
+
+              Game.showMove(botChoice);
 
               String result = Game.checkUserWin(userInput, botChoice);
               Game.checkGameplay();

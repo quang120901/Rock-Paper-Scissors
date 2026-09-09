@@ -50,6 +50,7 @@ void RPS::resetGame() {
 
     state=waitForUserInput;
     allLEDsOff();
+    resetServos();
     
 }
 
@@ -103,4 +104,41 @@ String RPS::checkUserWin(String user, String bot)
     }
 
     return outcome;
+}
+
+void RPS::attachServos(uint8_t scissorsPin, uint8_t rockPin, uint8_t paperPin)
+{
+    servoScissors.attach(scissorsPin);
+    servoRock.attach(rockPin);
+    servoPaper.attach(paperPin);
+
+    resetServos();
+}
+
+void RPS::showMove(const String &move)
+{
+    // Reset all three to neutral first, then raise only the matching one.
+    servoScissors.write(NEUTRAL_ANGLE);
+    servoRock.write(NEUTRAL_ANGLE);
+    servoPaper.write(NEUTRAL_ANGLE);
+
+    if (move == "scissors")
+    {
+        servoScissors.write(SHOW_ANGLE);
+    }
+    else if (move == "rock")
+    {
+        servoRock.write(SHOW_ANGLE);
+    }
+    else if (move == "paper")
+    {
+        servoPaper.write(SHOW_ANGLE);
+    }
+}
+
+void RPS::resetServos()
+{
+    servoScissors.write(NEUTRAL_ANGLE);
+    servoRock.write(NEUTRAL_ANGLE);
+    servoPaper.write(NEUTRAL_ANGLE);
 }
