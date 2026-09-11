@@ -35,8 +35,8 @@ void setup()
   connectAP();
 
   // Left-to-right servo order matches the dropdown in index.html:
-  // Scissors, Rock, Paper -> pins 14, 27, 25 (per diagram.json wiring)
-  Game.attachServos(14, 27, 25);
+  // Rock, Paper, Scissors -> pins 14, 27, 25 (per diagram.json wiring)
+  Game.attachServos(25, 14, 27);
 
   display.begin(LCD_SDA_PIN, LCD_SCL_PIN);
   display.showMessage("Rock Paper", "Scissors!");

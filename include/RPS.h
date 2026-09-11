@@ -51,7 +51,9 @@ public:
     String checkUserWin(String user, String bot);
     void resetGame();
 
-    // Attach the 3 servos to their pins, left to right: scissors, rock, paper
+    // Attach the 3 servos to their pins, matching the left-to-right physical
+    // order on the breadboard (Rock, Paper, Scissors when wired per
+    // diagram.json's pin 14/27/25 layout — see the attachServos() call site).
     void attachServos(uint8_t scissorsPin, uint8_t rockPin, uint8_t paperPin);
     // Rotate the servo matching "move" ("scissors"/"rock"/"paper") to show it,
     // and reset the other two back to neutral.

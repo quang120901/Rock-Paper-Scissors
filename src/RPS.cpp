@@ -119,17 +119,17 @@ void RPS::showMove(const String &move)
 {
     // Little "shake" build-up before revealing the final move, for suspense
     // (mimics the classic "rock... paper... scissors... shoot!" rhythm)
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 2; i++)
     {
         servoScissors.write(SHOW_ANGLE);
         servoRock.write(SHOW_ANGLE);
         servoPaper.write(SHOW_ANGLE);
-        delay(120);
+        delay(90);
 
         servoScissors.write(NEUTRAL_ANGLE);
         servoRock.write(NEUTRAL_ANGLE);
         servoPaper.write(NEUTRAL_ANGLE);
-        delay(120);
+        delay(90);
     }
 
     // Now reveal the bot's actual move

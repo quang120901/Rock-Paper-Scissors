@@ -7,6 +7,26 @@ Buzzer::Buzzer(uint8_t pin) : m_pin(pin)
 void Buzzer::begin()
 {
     pinMode(m_pin, OUTPUT);
+    digitalWrite(m_pin, LOW);
+}
+
+// Bit-banged square wave, deliberately NOT using tone()/LEDC.
+// This keeps the buzzer fully independent of the hardware PWM channels
+// used by ESP32Servo, avoiding channel conflicts that could otherwise
+// freeze a servo when the buzzer plays.
+void Buzzer::beep(unsigned int frequencyHz, unsigned int durationMs)
+{
+    unsigned long periodUs = 1000000UL / frequencyHz;
+    unsigned long halfPeriodUs = periodUs / 2;
+    unsigned long cycles = (unsigned long)durationMs * 1000UL / periodUs;
+
+    for (unsigned long i = 0; i < cycles; i++)
+    {
+        digitalWrite(m_pin, HIGH);
+        delayMicroseconds(halfPeriodUs);
+        digitalWrite(m_pin, LOW);
+        delayMicroseconds(halfPeriodUs);
+    }
 }
 
 void Buzzer::playMatchResult(int won, int lost)
@@ -14,31 +34,28 @@ void Buzzer::playMatchResult(int won, int lost)
     if (won > lost)
     {
         // Happy ascending jingle
-        tone(m_pin, 1000, 150);
-        delay(180);
-        tone(m_pin, 1300, 150);
-        delay(180);
-        tone(m_pin, 1600, 250);
-        delay(280);
+        beep(1000, 150);
+        delay(30);
+        beep(1300, 150);
+        delay(30);
+        beep(1600, 250);
     }
     else if (lost > won)
     {
         // Sad descending tone
-        tone(m_pin, 700, 200);
-        delay(220);
-        tone(m_pin, 500, 200);
-        delay(220);
-        tone(m_pin, 300, 300);
-        delay(320);
+        beep(700, 200);
+        delay(30);
+        beep(500, 200);
+        delay(30);
+        beep(300, 300);
     }
     else
     {
         // Flat "tie" beep
-        tone(m_pin, 600, 200);
-        delay(220);
-        tone(m_pin, 600, 200);
-        delay(220);
+        beep(600, 200);
+        delay(30);
+        beep(600, 200);
     }
 
-    noTone(m_pin);
+    digitalWrite(m_pin, LOW);
 }
