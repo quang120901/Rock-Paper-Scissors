@@ -121,7 +121,7 @@ To try it out:
 
 A short recording of the full experience: picking a move on the web page → countdown → servos shaking and revealing the move → LCD updating → LEDs lighting up → match-end jingle.
 
-> 📺 **[Watch the demo video](YOUR_VIDEO_LINK_HERE)**
+> 📺 **[Watch the demo video](https://drive.google.com/file/d/13-AW4VNikqYVoyrfKcKmXkQePfikgZyV/view?usp=sharing)**
 
 ### 🕹️ Try It Live (No Hardware Needed)
 Run the full simulation directly in your browser — no setup required:
