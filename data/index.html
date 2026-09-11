@@ -58,17 +58,53 @@
 
 <script>
 
+	// Delay (ms) between each word of the countdown, and after "Shoot!"
+	// before the actual /play request is sent.
+	var COUNTDOWN_STEP_MS = 450;
+	var COUNTDOWN_STEPS = ["Rock...", "Paper...", "Scissors...", "Shoot!"];
+
 	function submitGET() {
 		var userInput = $("#sspbAuswahl").val().toLowerCase();
 
+		$("#play-btn").prop("disabled", true);
+
+		runCountdown(function () {
+			playRound(userInput);
+		});
+	}
+
+	function runCountdown(onDone) {
+		var i = 0;
+		$("#result-banner").addClass("visible");
+
+		function nextStep() {
+			if (i < COUNTDOWN_STEPS.length) {
+				$("#result-banner").text(COUNTDOWN_STEPS[i]);
+				i++;
+				setTimeout(nextStep, COUNTDOWN_STEP_MS);
+			} else {
+				setTimeout(function () {
+					$("#result-banner").text("").removeClass("visible");
+					onDone();
+				}, 200);
+			}
+		}
+
+		nextStep();
+	}
+
+	function playRound(userInput) {
 		$.getJSON("/play?sspb=" + userInput, function (data) {
 			addRow(data);
 
 			if (data.gameOver) {
 				showGameOver(data);
+			} else {
+				$("#play-btn").prop("disabled", false);
 			}
 		}).fail(function () {
 			console.log("Request to /play failed");
+			$("#play-btn").prop("disabled", false);
 		});
 	}
 
@@ -93,9 +129,9 @@
 	function showGameOver(data) {
 		var message;
 		if (data.won > data.lost) {
-			message = "You won the match!";
+			message = "🎉 You won the match!";
 		} else if (data.lost > data.won) {
-			message = "The bot won the match!";
+			message = "🤖 The bot won the match!";
 		} else {
 			message = "The match ended in a tie!";
 		}

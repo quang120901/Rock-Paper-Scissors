@@ -117,11 +117,22 @@ void RPS::attachServos(uint8_t scissorsPin, uint8_t rockPin, uint8_t paperPin)
 
 void RPS::showMove(const String &move)
 {
-    // Reset all three to neutral first, then raise only the matching one.
-    servoScissors.write(NEUTRAL_ANGLE);
-    servoRock.write(NEUTRAL_ANGLE);
-    servoPaper.write(NEUTRAL_ANGLE);
+    // Little "shake" build-up before revealing the final move, for suspense
+    // (mimics the classic "rock... paper... scissors... shoot!" rhythm)
+    for (int i = 0; i < 3; i++)
+    {
+        servoScissors.write(SHOW_ANGLE);
+        servoRock.write(SHOW_ANGLE);
+        servoPaper.write(SHOW_ANGLE);
+        delay(120);
 
+        servoScissors.write(NEUTRAL_ANGLE);
+        servoRock.write(NEUTRAL_ANGLE);
+        servoPaper.write(NEUTRAL_ANGLE);
+        delay(120);
+    }
+
+    // Now reveal the bot's actual move
     if (move == "scissors")
     {
         servoScissors.write(SHOW_ANGLE);
