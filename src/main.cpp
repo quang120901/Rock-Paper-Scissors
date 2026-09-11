@@ -13,8 +13,8 @@
 #include "WebRoutes.h"
 
 #define BUZZER_PIN 22
-#define LCD_SDA_PIN 32
-#define LCD_SCL_PIN 33
+#define LCD_SDA_PIN 33
+#define LCD_SCL_PIN 32
 
 RPS Game = RPS();
 Display display(0x27, 20, 4);

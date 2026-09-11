@@ -8,6 +8,11 @@ class Display
 {
 private:
     LiquidCrystal_I2C lcd;
+    uint8_t m_cols;
+    uint8_t m_rows;
+
+    String centered(const String &text) const;
+    static String capitalize(const String &s);
 
 public:
     Display(uint8_t i2cAddress, uint8_t cols, uint8_t rows);
