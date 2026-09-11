@@ -1,7 +1,7 @@
 #ifndef Credentials_H
 #define Credentials_H
 
-const char* ssid = "Wokwi-GUEST";
-const char* password = "";
+extern const char* ssid;
+extern const char* password;
 
 #endif
