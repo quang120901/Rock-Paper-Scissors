@@ -212,10 +212,10 @@
     [ "bz1:1", "bb1:29b.i", "", [ "$bb" ] ],
     [ "bz1:2", "bb1:30b.i", "", [ "$bb" ] ],
     [ "bz1:2", "esp:22", "gold", [ "v19.2", "h-125.2" ] ],
-    [ "lcd2:SDA", "esp:32", "green", [ "h0" ] ],
-    [ "lcd2:SCL", "esp:35", "gold", [ "h0" ] ],
     [ "lcd2:VCC", "bb1:tp.17", "red", [ "h0" ] ],
-    [ "lcd2:GND", "bb1:bn.18", "black", [ "h0" ] ]
+    [ "lcd2:GND", "bb1:bn.18", "black", [ "h0" ] ],
+    [ "esp:33", "lcd2:SDA", "green", [ "v0" ] ],
+    [ "esp:32", "lcd2:SCL", "gold", [ "v0" ] ]
   ],
   "dependencies": {}
 }
